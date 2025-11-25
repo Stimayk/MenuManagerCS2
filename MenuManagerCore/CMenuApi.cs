@@ -1,58 +1,52 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MenuManager;
 
-namespace MenuManager
+namespace MenuManager;
+
+internal class CMenuApi : IMenuApi
 {
-    internal class CMenuApi: IMenuApi
+    private MenuManagerCore _plugin;
+
+    //public CApi(BasePlugin _plugin)
+    public CMenuApi(MenuManagerCore plugin)
     {
-        MenuManagerCore plugin;
-        //public CApi(BasePlugin _plugin)
-        public CMenuApi(MenuManagerCore _plugin)
-        {
-            plugin = _plugin;
-        }
+        _plugin = plugin;
+    }
 
-        public IMenu GetMenu(string title, Action<CCSPlayerController> back_action = null, Action<CCSPlayerController> reset_action = null)
-        {
-            return new MenuInstance(title, back_action, reset_action);
-        }
+    public IMenu GetMenu(string title, Action<CCSPlayerController> backAction = null,
+        Action<CCSPlayerController> resetAction = null)
+    {
+        return new MenuInstance(title, backAction, resetAction);
+    }
 
-        public IMenu NewMenu(string title, Action<CCSPlayerController> back_action = null)
-        {
-            return new MenuInstance(title, back_action, null);
-        }
+    public IMenu NewMenu(string title, Action<CCSPlayerController> backAction = null)
+    {
+        return new MenuInstance(title, backAction);
+    }
 
-        public IMenu GetMenuForcetype(string title, MenuType type, Action<CCSPlayerController> back_action = null, Action<CCSPlayerController> reset_action = null)
-        {
-            return new MenuInstance(title, back_action, reset_action, type);
-        }
+    public IMenu GetMenuForcetype(string title, MenuType type, Action<CCSPlayerController> backAction = null,
+        Action<CCSPlayerController> resetAction = null)
+    {
+        return new MenuInstance(title, backAction, resetAction, type);
+    }
 
-        public IMenu NewMenuForcetype(string title, MenuType type, Action<CCSPlayerController> back_action = null)
-        {
-            return new MenuInstance(title, back_action, null, type);
-        }
+    public IMenu NewMenuForcetype(string title, MenuType type, Action<CCSPlayerController> backAction = null)
+    {
+        return new MenuInstance(title, backAction, null, type);
+    }
 
-        public void CloseMenu(CCSPlayerController player)
-        {
-            Control.CloseMenu(player);
-        }
+    public void CloseMenu(CCSPlayerController player)
+    {
+        Control.CloseMenu(player);
+    }
 
-        public MenuType GetMenuType(CCSPlayerController player)
-        {
-            return Misc.GetCurrentPlayerMenu(player);
-        }
+    public MenuType GetMenuType(CCSPlayerController player)
+    {
+        return Misc.GetCurrentPlayerMenu(player);
+    }
 
-        public bool HasOpenedMenu(CCSPlayerController player)
-        {
-            return Control.HasOpenedMenu(player);
-        }
-
-
+    public bool HasOpenedMenu(CCSPlayerController player)
+    {
+        return Control.HasOpenedMenu(player);
     }
 }

@@ -1,0 +1,13 @@
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/bin/Debug/net8.0/MenuManagerApi.deps.json
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/bin/Debug/net8.0/MenuManagerApi.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/bin/Debug/net8.0/MenuManagerApi.pdb
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.csproj.AssemblyReference.cache
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.GeneratedMSBuildEditorConfig.editorconfig
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.AssemblyInfoInputs.cache
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.AssemblyInfo.cs
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.csproj.CoreCompileInputs.cache
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.sourcelink.json
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/refint/MenuManagerApi.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.pdb
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/ref/MenuManagerApi.dll

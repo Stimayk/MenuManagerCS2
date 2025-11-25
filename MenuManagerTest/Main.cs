@@ -1,20 +1,18 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Core.Capabilities;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Menu;
 using MenuManager;
 
 public class MenuManagerTest : BasePlugin
 {
+    private readonly PluginCapability<IMenuApi?> _pluginCapability = new("menu:nfcore");
+
+    private IMenuApi? _api;
     public override string ModuleName => "MenuManager [Test]";
     public override string ModuleVersion => "1.1.2";
     public override string ModuleAuthor => "Nick Fox";
     public override string ModuleDescription => "MenuManager Test Module";
-
-    private IMenuApi? _api;
-    private readonly PluginCapability<IMenuApi?> _pluginCapability = new("menu:nfcore");    
 
     public override void OnAllPluginsLoaded(bool hotReload)
     {
@@ -26,14 +24,12 @@ public class MenuManagerTest : BasePlugin
     public void OnCommand(CCSPlayerController? player, CommandInfo command)
     {
         if (player != null)
-        {            
+        {
             var menu = _api.GetMenu("Ticklingig");
-            for (int i = 0; i < 10; i++)
-                menu.AddMenuOption($"itemline{i}", (player, option) => { player.PrintToChat($"Selected: {option.Text}"); });
+            for (var i = 0; i < 10; i++)
+                menu.AddMenuOption($"itemline{i}",
+                    (player, option) => { player.PrintToChat($"Selected: {option.Text}"); });
             menu.Open(player);
-            
         }
-        
-
     }
 }

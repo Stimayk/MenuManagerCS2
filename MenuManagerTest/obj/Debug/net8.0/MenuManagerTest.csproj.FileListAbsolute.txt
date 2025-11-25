@@ -1,0 +1,16 @@
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/bin/Debug/net8.0/MenuManagerTest.deps.json
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/bin/Debug/net8.0/MenuManagerTest.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/bin/Debug/net8.0/MenuManagerTest.pdb
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/bin/Debug/net8.0/MenuManagerApi.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/bin/Debug/net8.0/MenuManagerApi.pdb
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.csproj.AssemblyReference.cache
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.GeneratedMSBuildEditorConfig.editorconfig
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.AssemblyInfoInputs.cache
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.AssemblyInfo.cs
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.csproj.CoreCompileInputs.cache
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.sourcelink.json
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuMana.AA84D73C.Up2Date
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/refint/MenuManagerTest.dll
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/MenuManagerTest.pdb
+/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/Debug/net8.0/ref/MenuManagerTest.dll
