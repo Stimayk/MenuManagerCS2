@@ -36,9 +36,7 @@ public class PluginConfig : BasePluginConfig
     [JsonPropertyName("IgnoreErrors")] public bool IgnoreErrors { get; set; } = true;
     [JsonPropertyName("MenuLinesCount")] public int MenuLinesCount { get; set; } = 5;
     [JsonPropertyName("UseMetamodMenu")] public bool UseMetamodMenu { get; set; } = false;
-
-    [JsonPropertyName("UseMetamodMenuReplace")]
-    public bool UseMetamodMenuReplace { get; set; } = false;
+    [JsonPropertyName("UseMetamodMenuReplace")] public bool UseMetamodMenuReplace { get; set; } = false;
 }
 
 public class MenuManagerCore : BasePlugin, IPluginConfig<PluginConfig>
@@ -50,7 +48,7 @@ public class MenuManagerCore : BasePlugin, IPluginConfig<PluginConfig>
     private IMenuApi? _api;
     public CCSGameRules? GameRules;
     public override string ModuleName => "[FORK] MenuManager";
-    public override string ModuleVersion => "v1.0.0";
+    public override string ModuleVersion => "v1.1.0";
     public override string ModuleAuthor => "E!N (base by Nick Fox)";
     public override string ModuleDescription => "";
     public required PluginConfig Config { get; set; }
@@ -66,7 +64,7 @@ public class MenuManagerCore : BasePlugin, IPluginConfig<PluginConfig>
 
         Misc.SetDefaultMenu(Config.DefaultMenu);
 
-        DataBaseService = new DataBaseService(config);
+        DataBaseService = new DataBaseService(config, ModuleDirectory);
 
         Task.Run(async () =>
         {

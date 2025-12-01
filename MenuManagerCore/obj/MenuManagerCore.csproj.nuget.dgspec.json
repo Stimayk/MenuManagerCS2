@@ -127,6 +127,10 @@
               "target": "Package",
               "version": "[*, )"
             },
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[*, )"
+            },
             "MySqlConnector": {
               "target": "Package",
               "version": "[*, )"
