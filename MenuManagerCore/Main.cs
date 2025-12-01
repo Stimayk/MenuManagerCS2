@@ -117,7 +117,6 @@ public class MenuManagerCore : BasePlugin, IPluginConfig<PluginConfig>
     private void OnCommand(CCSPlayerController? player)
     {
         if (player == null || _api == null) return;
-        player.ExecuteClientCommandFromServer("snd_toolvolume 0.1");
         var menu = _api.GetMenu(Localizer["menumanager.settings_title"]);
 
         menu.AddMenuOption(Localizer["menumanager.select_type"], (p, _) => OpenMenuTypeSettings(p));
