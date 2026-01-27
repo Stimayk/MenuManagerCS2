@@ -11,3 +11,16 @@
 /home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/refint/MenuManagerApi.dll
 /home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/MenuManagerApi.pdb
 /home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/Debug/net8.0/ref/MenuManagerApi.dll
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\bin\Debug\net8.0\MenuManagerApi.deps.json
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\bin\Debug\net8.0\MenuManagerApi.dll
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\bin\Debug\net8.0\MenuManagerApi.pdb
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.csproj.AssemblyReference.cache
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.AssemblyInfoInputs.cache
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.AssemblyInfo.cs
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.csproj.CoreCompileInputs.cache
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.sourcelink.json
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.dll
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\refint\MenuManagerApi.dll
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\MenuManagerApi.pdb
+C:\Users\Stimayk.DESKTOP-1HFB3FI\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Debug\net8.0\ref\MenuManagerApi.dll

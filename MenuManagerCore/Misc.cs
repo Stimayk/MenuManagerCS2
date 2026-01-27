@@ -1,8 +1,9 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using MenuManager;
 using Microsoft.Extensions.Logging;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
 internal static class Misc
 {
@@ -11,21 +12,29 @@ internal static class Misc
 
     public static List<CCSPlayerController> GetValidPlayers()
     {
-        var players = new List<CCSPlayerController>();
-        foreach (var player in Utilities.GetPlayers())
+        List<CCSPlayerController> players = [];
+        foreach (CCSPlayerController player in Utilities.GetPlayers())
+        {
             if (player is
                 { IsValid: true, IsBot: false, IsHLTV: false, Connected: PlayerConnectedState.PlayerConnected })
+            {
                 players.Add(player);
+            }
+        }
+
         return players;
     }
 
     public static void SetDefaultMenu(string defaultMenuStr)
     {
-        var menuTypes = new List<string>(["ButtonMenu", "CenterMenu", "ConsoleMenu", "ChatMenu", "MetamodMenu"]);
+        List<string> menuTypes = new(["ButtonMenu", "CenterMenu", "ConsoleMenu", "ChatMenu", "MetamodMenu"]);
         if (menuTypes.Contains(defaultMenuStr))
         {
             _defaultMenu = defaultMenuStr;
-            if (Enum.TryParse(defaultMenuStr, out MenuType result)) _defaultMenuType = result;
+            if (Enum.TryParse(defaultMenuStr, out MenuType result))
+            {
+                _defaultMenuType = result;
+            }
         }
         else
         {
@@ -39,7 +48,11 @@ internal static class Misc
 
     private static PlayerSettings GetOrAddSettings(ulong steamId)
     {
-        if (MenuManagerCore.PlayerSettingsCache.TryGetValue(steamId, out var value)) return value;
+        if (MenuManagerCore.PlayerSettingsCache.TryGetValue(steamId, out PlayerSettings? value))
+        {
+            return value;
+        }
+
         value = new PlayerSettings();
         MenuManagerCore.PlayerSettingsCache[steamId] = value;
         return value;
@@ -47,50 +60,53 @@ internal static class Misc
 
     public static MenuType GetCurrentPlayerMenu(CCSPlayerController player)
     {
-        if (!IsValidPlayer(player)) return _defaultMenuType;
-        var steamId = player.AuthorizedSteamID?.SteamId64;
-        if (steamId == null) return _defaultMenuType;
+        if (!IsValidPlayer(player))
+        {
+            return _defaultMenuType;
+        }
 
-        if (MenuManagerCore.PlayerSettingsCache.TryGetValue(steamId.Value, out var settings))
-            return settings.MenuType == MenuType.ButtonMenu ? _defaultMenuType : settings.MenuType;
-        return _defaultMenuType;
+        ulong? steamId = player.AuthorizedSteamID?.SteamId64;
+        return steamId == null
+            ? _defaultMenuType
+            : MenuManagerCore.PlayerSettingsCache.TryGetValue(steamId.Value, out PlayerSettings? settings)
+            ? settings.MenuType == MenuType.ButtonMenu ? _defaultMenuType : settings.MenuType
+            : _defaultMenuType;
     }
 
     public static bool GetPlayerPagination(CCSPlayerController player)
     {
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null)
-            return Control.GetPlugin()!.Config.Pagination;
-
-        if (MenuManagerCore.PlayerSettingsCache.TryGetValue(player.AuthorizedSteamID.SteamId64, out var settings))
-            return settings.UsePagination ?? Control.GetPlugin()!.Config.Pagination;
-        return Control.GetPlugin()!.Config.Pagination;
+        return !IsValidPlayer(player) || player.AuthorizedSteamID == null
+            ? Control.GetPlugin()!.Config.Pagination
+            : MenuManagerCore.PlayerSettingsCache.TryGetValue(player.AuthorizedSteamID.SteamId64, out PlayerSettings? settings)
+            ? settings.UsePagination ?? Control.GetPlugin()!.Config.Pagination
+            : Control.GetPlugin()!.Config.Pagination;
     }
 
     public static bool GetPlayerSoundsEnabled(CCSPlayerController player)
     {
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null) return true;
-
-        if (MenuManagerCore.PlayerSettingsCache.TryGetValue(player.AuthorizedSteamID.SteamId64, out var settings))
-            return settings.SoundsEnabled ?? true;
-        return true;
+        return !IsValidPlayer(player) || player.AuthorizedSteamID == null || !MenuManagerCore.PlayerSettingsCache.TryGetValue(player.AuthorizedSteamID.SteamId64, out PlayerSettings? settings) || (settings.SoundsEnabled ?? true);
     }
 
     public static float GetPlayerVolume(CCSPlayerController player)
     {
-        var configVol = Control.GetPlugin()!.Config.SoundVolume;
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null) return configVol;
-
-        if (MenuManagerCore.PlayerSettingsCache.TryGetValue(player.AuthorizedSteamID.SteamId64, out var settings))
-            return settings.Volume ?? configVol;
-        return configVol;
+        float configVol = Control.GetPlugin()!.Config.SoundVolume;
+        return !IsValidPlayer(player) || player.AuthorizedSteamID == null
+            ? configVol
+            : MenuManagerCore.PlayerSettingsCache.TryGetValue(player.AuthorizedSteamID.SteamId64, out PlayerSettings? settings)
+            ? settings.Volume ?? configVol
+            : configVol;
     }
 
     public static void SelectPlayerMenu(CCSPlayerController player, MenuType type)
     {
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null) return;
-        var steamId = player.AuthorizedSteamID.SteamId64;
+        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null)
+        {
+            return;
+        }
 
-        var settings = GetOrAddSettings(steamId);
+        ulong steamId = player.AuthorizedSteamID.SteamId64;
+
+        PlayerSettings settings = GetOrAddSettings(steamId);
         settings.MenuType = type;
 
         MenuManagerCore.PlayerSettingsCache[steamId] = settings;
@@ -102,10 +118,14 @@ internal static class Misc
 
     public static void SetPlayerPagination(CCSPlayerController player, bool pagination)
     {
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null) return;
-        var steamId = player.AuthorizedSteamID.SteamId64;
+        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null)
+        {
+            return;
+        }
 
-        var settings = GetOrAddSettings(steamId);
+        ulong steamId = player.AuthorizedSteamID.SteamId64;
+
+        PlayerSettings settings = GetOrAddSettings(steamId);
         settings.UsePagination = pagination;
         MenuManagerCore.PlayerSettingsCache[steamId] = settings;
 
@@ -114,10 +134,14 @@ internal static class Misc
 
     public static void SetPlayerSoundsEnabled(CCSPlayerController player, bool enabled)
     {
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null) return;
-        var steamId = player.AuthorizedSteamID.SteamId64;
+        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null)
+        {
+            return;
+        }
 
-        var settings = GetOrAddSettings(steamId);
+        ulong steamId = player.AuthorizedSteamID.SteamId64;
+
+        PlayerSettings settings = GetOrAddSettings(steamId);
         settings.SoundsEnabled = enabled;
         MenuManagerCore.PlayerSettingsCache[steamId] = settings;
 
@@ -126,12 +150,16 @@ internal static class Misc
 
     public static void SetPlayerVolume(CCSPlayerController player, float volume)
     {
-        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null) return;
-        var steamId = player.AuthorizedSteamID.SteamId64;
+        if (!IsValidPlayer(player) || player.AuthorizedSteamID == null)
+        {
+            return;
+        }
+
+        ulong steamId = player.AuthorizedSteamID.SteamId64;
 
         volume = Math.Clamp(volume, 0.0f, 0.9f);
 
-        var settings = GetOrAddSettings(steamId);
+        PlayerSettings settings = GetOrAddSettings(steamId);
         settings.Volume = volume;
         MenuManagerCore.PlayerSettingsCache[steamId] = settings;
 
@@ -140,10 +168,12 @@ internal static class Misc
 
     private static void SaveSettingsAsync(ulong steamId, PlayerSettings settings)
     {
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             if (MenuManagerCore.DataBaseService != null)
+            {
                 await MenuManagerCore.DataBaseService.SaveMenuSetting(steamId, settings);
+            }
         });
     }
 
@@ -168,13 +198,13 @@ internal static class Misc
     public static bool IsValidPlayer(CCSPlayerController player)
     {
         return player is
-            { IsValid: true, Connected: PlayerConnectedState.PlayerConnected, IsBot: false };
+        { IsValid: true, Connected: PlayerConnectedState.PlayerConnected, IsBot: false };
     }
 
     internal static string ColorText(string text, bool needColors = true)
     {
-        var newText = text;
-        var colors = new List<string>([
+        string newText = text;
+        List<string> colors = new([
             "Default", "White", "Darkred", "Green", "Lightyellow", "Lightblue", "Olive", "Lime", "Red", "Lightpurple",
             "Purple", "Grey", "Yellow", "Gold", "Silver", "Blue", "Darkblue", "Bluegrey", "Magenta", "Lightred",
             "Orange"
@@ -182,21 +212,21 @@ internal static class Misc
 
         if (needColors)
         {
-            foreach (var color0 in colors)
+            foreach (string color0 in colors)
             {
-                var color = "[color:" + color0 + "]";
-                var colorOld = "{" + color0 + "}";
-                var rep = $"<font color='{color0.ToLower()}'>";
+                string color = "[color:" + color0 + "]";
+                string colorOld = "{" + color0 + "}";
+                string rep = $"<font color='{color0.ToLower()}'>";
                 newText = newText.Replace(color, rep, StringComparison.CurrentCultureIgnoreCase);
                 newText = newText.Replace(colorOld, rep, StringComparison.CurrentCultureIgnoreCase);
             }
         }
         else
         {
-            foreach (var color0 in colors)
+            foreach (string color0 in colors)
             {
-                var color = "[color:" + color0 + "]";
-                var colorOld = "{" + color0 + "}";
+                string color = "[color:" + color0 + "]";
+                string colorOld = "{" + color0 + "}";
                 newText = newText.Replace(color, "", StringComparison.CurrentCultureIgnoreCase);
                 newText = newText.Replace(colorOld, "", StringComparison.CurrentCultureIgnoreCase);
             }

@@ -2,7 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Memory;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
 internal static class Control
 {
@@ -11,38 +11,45 @@ internal static class Control
 
     public static void AddMenu(CCSPlayerController player, ButtonMenu inst)
     {
-        var oldSelected = 0;
-        var oldTitle = "";
-        var oldOffset = 0;
-        for (var i = 0; i < Menus.Count; i++)
+        int oldSelected = 0;
+        string oldTitle = "";
+        int oldOffset = 0;
+        for (int i = 0; i < Menus.Count; i++)
+        {
             if (Menus[i].GetPlayer() == player)
             {
                 oldSelected = Menus[i].Selected();
                 oldTitle = Menus[i].Menu.Title;
                 oldOffset = Menus[i].Offset();
-                Menus.Remove(Menus[i]);
+                _ = Menus.Remove(Menus[i]);
                 i++;
             }
+        }
 
-        var menu = new PlayerInfo(player, inst, oldSelected, oldOffset, oldTitle);
+        PlayerInfo menu = new(player, inst, oldSelected, oldOffset, oldTitle);
         Menus.Add(menu);
     }
 
     public static void AddMenuAll(ButtonMenu inst)
     {
-        var players = Utilities.GetPlayers();
-        foreach (var player in players.OfType<CCSPlayerController?>().Where(player =>
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        foreach (CCSPlayerController? player in players.OfType<CCSPlayerController?>().Where(player =>
                      player is
                      {
                          IsValid: true, IsBot: false, IsHLTV: false, Connected: PlayerConnectedState.PlayerConnected
                      }))
+        {
             if (player != null)
+            {
                 AddMenu(player, inst);
+            }
+        }
     }
 
     public static void Clear()
     {
-        foreach (var player in Menus.Select(menu => menu.GetPlayer()))
+        foreach (CCSPlayerController? player in Menus.Select(menu => menu.GetPlayer()))
+        {
             if (Misc.IsValidPlayer(player) &&
                 _hPlugin is { Config.StopingUser: true } &&
                 player.PawnIsAlive &&
@@ -53,8 +60,9 @@ internal static class Control
                 Schema.SetSchemaValue(player.Pawn.Value.Handle, "CBaseEntity", "m_nActualMoveType", 2);
                 Utilities.SetStateChanged(player.Pawn.Value, "CBaseEntity", "m_MoveType");
             }
+        }
 
-        Menus.RemoveAll(_ => true);
+        _ = Menus.RemoveAll(_ => true);
     }
 
     public static void OnPluginTick()
@@ -62,16 +70,24 @@ internal static class Control
         if (_hPlugin is { Config.MenuFlashFix: true })
         {
             if (_hPlugin.GameRules == null)
+            {
                 _hPlugin.InitializeGameRules();
+            }
             else
+            {
                 _hPlugin.GameRules.GameRestart = _hPlugin.GameRules.RestartRoundTime < Server.CurrentTime;
+            }
         }
 
-        if (Menus.Count <= 0) return;
-        for (var i = 0; i < Menus.Count; i++)
+        if (Menus.Count <= 0)
         {
-            var menu = Menus[i];
-            var player = menu.GetPlayer();
+            return;
+        }
+
+        for (int i = 0; i < Menus.Count; i++)
+        {
+            PlayerInfo menu = Menus[i];
+            CCSPlayerController player = menu.GetPlayer();
             if (!Misc.IsValidPlayer(player))
             {
                 Menus.RemoveAt(i);
@@ -97,7 +113,7 @@ internal static class Control
                 continue;
             }
 
-            var buttons = player.Buttons;
+            PlayerButtons buttons = player.Buttons;
             if (_hPlugin is { Config.StopingUser: true } && player.PawnIsAlive && player.Pawn.Value != null &&
                 player.Pawn.Value.MoveType == MoveType_t.MOVETYPE_WALK)
             {
@@ -109,17 +125,29 @@ internal static class Control
             if (!menu.IsEqualButtons(buttons.ToString()))
             {
                 if (_hPlugin != null && buttons.HasFlag(_hPlugin.Config.ButtonsConfig.UpButton))
-                    menu.MoveUp();
+                {
+                    _ = menu.MoveUp();
+                }
                 else if (_hPlugin != null && buttons.HasFlag(_hPlugin.Config.ButtonsConfig.DownButton))
-                    menu.MoveDown();
+                {
+                    _ = menu.MoveDown();
+                }
                 else if (_hPlugin != null && buttons.HasFlag(_hPlugin.Config.ButtonsConfig.LeftButton))
-                    menu.MoveUp(GetPlugin()!.Config.MenuLinesCount);
+                {
+                    _ = menu.MoveUp(GetPlugin()!.Config.MenuLinesCount);
+                }
                 else if (_hPlugin != null && buttons.HasFlag(_hPlugin.Config.ButtonsConfig.RightButton))
-                    menu.MoveDown(GetPlugin()!.Config.MenuLinesCount);
+                {
+                    _ = menu.MoveDown(GetPlugin()!.Config.MenuLinesCount);
+                }
                 else if (_hPlugin != null && buttons.HasFlag(_hPlugin.Config.ButtonsConfig.SelectButton))
+                {
                     menu.OnSelect();
+                }
                 else if (_hPlugin != null && buttons.HasFlag(_hPlugin.Config.ButtonsConfig.BackButton))
+                {
                     menu.Menu.BackAction?.Invoke(player);
+                }
 
                 if (_hPlugin != null && (buttons.HasFlag(_hPlugin.Config.ButtonsConfig.ExitButton) || menu.Closed()))
                 {
@@ -144,9 +172,15 @@ internal static class Control
 
     public static void PlaySound(CCSPlayerController player, string sound)
     {
-        if (string.IsNullOrEmpty(sound)) return;
+        if (string.IsNullOrEmpty(sound))
+        {
+            return;
+        }
 
-        if (!Misc.GetPlayerSoundsEnabled(player)) return;
+        if (!Misc.GetPlayerSoundsEnabled(player))
+        {
+            return;
+        }
 
         if (sound.StartsWith("sounds/"))
         {
@@ -154,17 +188,26 @@ internal static class Control
         }
         else
         {
-            if (_hPlugin == null) return;
-            var vol = Misc.GetPlayerVolume(player);
-            player.EmitSound(sound, player, vol);
+            if (_hPlugin == null)
+            {
+                return;
+            }
+
+            float vol = Misc.GetPlayerVolume(player);
+            _ = player.EmitSound(sound, player, vol);
         }
     }
 
     public static void CloseMenu(CCSPlayerController player)
     {
+        if (player == null)
+        {
+            return;
+        }
+
         CounterStrikeSharp.API.Modules.Menu.MenuManager.CloseActiveMenu(player);
 
-        var menuInfo = Menus.FirstOrDefault(t => t.GetPlayer() == player);
+        PlayerInfo? menuInfo = Menus.FirstOrDefault(t => t.GetPlayer() == player);
         if (menuInfo != null)
         {
             menuInfo.Close();
@@ -180,16 +223,17 @@ internal static class Control
             }
         }
 
-        if (menuInfo != null) Menus.Remove(menuInfo);
+        if (menuInfo != null)
+        {
+            _ = Menus.Remove(menuInfo);
+        }
 
         MenusMm.ClosePlayerMenu(player.Slot);
     }
 
     internal static bool HasOpenedMenu(CCSPlayerController player, PlayerInfo? info = null)
     {
-        if (Menus.Any(menu => menu.GetPlayer() == player && !menu.Closed() && menu != info)) return true;
-
-        return info == null && MenusMm.IsMenuOpen(player.Slot);
+        return Menus.Any(menu => menu.GetPlayer() == player && !menu.Closed() && menu != info) || (info == null && MenusMm.IsMenuOpen(player.Slot));
     }
 
     internal static void Init(MenuManagerCore hPlugin)

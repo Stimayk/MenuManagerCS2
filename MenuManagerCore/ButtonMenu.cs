@@ -1,24 +1,17 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
-public class ButtonMenu : IMenu
+public class ButtonMenu(string title, bool metamod = false) : IMenu
 {
     public Action<CCSPlayerController>? BackAction = null;
-    public bool Metamod = false;
+    public bool Metamod = metamod;
     public Action<CCSPlayerController>? ResetAction = null;
 
-    public ButtonMenu(string title, bool metamod = false)
-    {
-        MenuOptions = [];
-        Title = title;
-        Metamod = metamod;
-    }
+    public string Title { get; set; } = title;
 
-    public string Title { get; set; }
-
-    public List<ChatMenuOption> MenuOptions { get; }
+    public List<ChatMenuOption> MenuOptions { get; } = [];
 
     public bool ExitButton { get; set; }
 
@@ -27,7 +20,7 @@ public class ButtonMenu : IMenu
     public ChatMenuOption AddMenuOption(string display, Action<CCSPlayerController, ChatMenuOption> onSelect,
         bool disabled = false)
     {
-        var option = new ChatMenuOption(display, disabled, onSelect);
+        ChatMenuOption option = new(display, disabled, onSelect);
         MenuOptions.Add(option);
         return option;
     }

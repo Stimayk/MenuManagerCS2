@@ -1,4 +1,6 @@
-namespace MenuManager;
+using MenuManager;
+
+namespace MenuManagerCore;
 
 public class PlayerSettings
 {

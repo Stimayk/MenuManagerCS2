@@ -2543,32 +2543,34 @@
     ]
   },
   "packageFolders": {
-    "/home/stimayk/.nuget/packages/": {}
+    "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/MenuManagerTest.csproj",
+      "projectUniqueName": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerTest\\MenuManagerTest.csproj",
       "projectName": "MenuManagerTest",
-      "projectPath": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/MenuManagerTest.csproj",
-      "packagesPath": "/home/stimayk/.nuget/packages/",
-      "outputPath": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerTest/obj/",
+      "projectPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerTest\\MenuManagerTest.csproj",
+      "packagesPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/stimayk/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/MenuManagerApi.csproj": {
-              "projectPath": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/MenuManagerApi.csproj"
+            "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\MenuManagerApi.csproj": {
+              "projectPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\MenuManagerApi.csproj"
             }
           }
         }
@@ -2583,7 +2585,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -2605,18 +2607,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.20, 8.0.20]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

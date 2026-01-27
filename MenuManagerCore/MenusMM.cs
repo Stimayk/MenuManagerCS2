@@ -1,10 +1,10 @@
-﻿using System.Runtime.InteropServices;
-using CounterStrikeSharp.API;
+﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
 using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
 // typedef std::function<void(const char* szBack, const char* szFront, int iItem, int iSlot)> MenuCallbackFunc;
 //private static unsafe delegate* unmanaged[Cdecl]<string, string, int, int, void> MM_MenuCallbackFunc;
@@ -52,26 +52,30 @@ internal static class MenusMm
 
     internal static void Init()
     {
-        if (_hooked) return;
+        if (_hooked)
+        {
+            return;
+        }
 
         if (_callbacksInfos == null)
+        {
             _callbacksInfos = [];
+        }
         else
+        {
             _callbacksInfos.Clear();
+        }
 
-        var libPath = string.Empty;
-
-        libPath = $"{Server.GameDirectory}/csgo/addons/MenusExport/bin/MenusExport.{GetOsExt()}";
-
+        string libPath = $"{Server.GameDirectory}/csgo/addons/MenusExport/bin/MenusExport.{GetOsExt()}";
         if (!File.Exists(libPath))
+        {
             return;
+        }
 
-        var libHandle = NativeLibrary.Load(libPath);
+        nint libHandle = NativeLibrary.Load(libPath);
         if (libHandle != IntPtr.Zero)
         {
-            var funcPtr = IntPtr.Zero;
-
-            funcPtr = NativeLibrary.GetExport(libHandle, "MenusApi_IsMenuOpen");
+            nint funcPtr = NativeLibrary.GetExport(libHandle, "MenusApi_IsMenuOpen");
             if (funcPtr != IntPtr.Zero)
             {
                 unsafe
@@ -218,11 +222,11 @@ internal static class MenusMm
             return;
         }
 
-        Control.GetPlugin().Logger.LogInformation("====================================");
-        Control.GetPlugin().Logger.LogInformation(" ");
-        Control.GetPlugin().Logger.LogInformation("Metamod MenusApi found and hooked!");
-        Control.GetPlugin().Logger.LogInformation(" ");
-        Control.GetPlugin().Logger.LogInformation("====================================");
+        Control.GetPlugin()?.Logger.LogInformation("====================================");
+        Control.GetPlugin()?.Logger.LogInformation(" ");
+        Control.GetPlugin()?.Logger.LogInformation("Metamod MenusApi found and hooked!");
+        Control.GetPlugin()?.Logger.LogInformation(" ");
+        Control.GetPlugin()?.Logger.LogInformation("====================================");
 
         NativeLibrary.Free(libHandle);
         _hooked = true;
@@ -231,10 +235,12 @@ internal static class MenusMm
     internal static bool IsMenuOpen(int iSlot)
     {
         if (_hooked)
+        {
             unsafe
             {
                 return _nativeIsMenuOpen(iSlot);
             }
+        }
 
         return false;
     }
@@ -242,63 +248,82 @@ internal static class MenusMm
     internal static void ClosePlayerMenu(int iSlot)
     {
         if (_hooked)
+        {
             unsafe
             {
-                if (_nativeIsMenuOpen(iSlot)) _nativeClosePlayerMenu(iSlot);
+                if (_nativeIsMenuOpen(iSlot))
+                {
+                    _nativeClosePlayerMenu(iSlot);
+                }
             }
+        }
     }
 
     internal static void SetExitMenu(bool exit)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeSetExitMenu(exit);
             }
+        }
     }
 
     internal static void SetBackMenu(bool back)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeSetBackMenu(back);
             }
+        }
     }
 
     internal static void SetTitleMenu(string title)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeSetTitleMenu(title);
             }
+        }
     }
 
     internal static void SetCallback(MmMenuCallbackFunc func)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeSetCallback(func);
             }
+        }
     }
 
     internal static void DisplayPlayerMenu(int slot, bool close = true, bool reset = true)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeDisplayPlayerMenu(slot, close, reset);
             }
+        }
     }
 
     internal static void AddItemMenu(string back, string text, bool disabled = false)
     {
         if (_hooked)
         {
-            var itemtype = 1;
-            if (disabled) itemtype = 2;
+            int itemtype = 1;
+            if (disabled)
+            {
+                itemtype = 2;
+            }
+
             unsafe
             {
                 _nativeAddItemMenu(back, text, itemtype);
@@ -309,27 +334,35 @@ internal static class MenusMm
     internal static void NewMenuInstance(int slot)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeNewMenuInstance(slot);
             }
+        }
     }
 
     internal static void Clear(int slot)
     {
         if (_hooked)
+        {
             unsafe
             {
                 _nativeClear(slot);
             }
+        }
     }
 
     internal static void NotHooked(int i)
     {
         _hooked = false;
-        Control.GetPlugin().Logger.LogInformation("Metamod MenusApi found but couldnt hook it! [Code: {I}]", i);
-        Control.GetPlugin().Config.UseMetamodMenu = false;
-        Control.GetPlugin().Config.UseMetamodMenuReplace = false;
+        MenuManagerCore? plugin = Control.GetPlugin();
+        if (plugin != null)
+        {
+            plugin.Logger.LogInformation("Metamod MenusApi found but couldnt hook it! [Code: {I}]", i);
+            plugin.Config.UseMetamodMenu = false;
+            plugin.Config.UseMetamodMenuReplace = false;
+        }
     }
 
     private static void AddCallbackInfo(int slot, MmMenuCallbackFunc func)
@@ -340,10 +373,18 @@ internal static class MenusMm
     internal static void ClearCallbackInfo(int slot)
     {
         if (!_hooked)
+        {
             return;
-        for (var i = _callbacksInfos.Count - 1; i >= 0; i--)
+        }
+
+        for (int i = _callbacksInfos.Count - 1; i >= 0; i--)
+        {
             if (_callbacksInfos[i].Slot() == slot)
+            {
                 _callbacksInfos.RemoveAt(i);
+            }
+        }
+
         Clear(slot);
     }
 
@@ -355,27 +396,43 @@ internal static class MenusMm
     internal static void PassMenuToMm(CCSPlayerController player, MenuInstance menu)
     {
         if (!_hooked)
+        {
             return;
-        var slot = player.Slot;
+        }
+
+        int slot = player.Slot;
         NewMenuInstance(slot);
         SetTitleMenu(Misc.ColorText(menu.Title, false));
         if (menu.BackAction != null)
+        {
             SetBackMenu(true);
+        }
 
         SetExitMenu(menu.ExitButton);
 
-        for (var i = 0; i < menu.MenuOptions.Count; i++)
+        for (int i = 0; i < menu.MenuOptions.Count; i++)
+        {
             AddItemMenu(i.ToString(), Misc.ColorText(menu.MenuOptions[i].Text, false), menu.MenuOptions[i].Disabled);
+        }
 
         //Func<string, string, int, int, void> callback = delegate (string szBack, string szFront, int iItem, int iSlot)
-        MmMenuCallbackFunc callback = (szBack, _, iItem, iSlot) =>
+        void callback(string szBack, string _, int iItem, int iSlot)
         {
-            var player = Utilities.GetPlayerFromSlot(iSlot);
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(iSlot);
+
+            if (player == null)
+            {
+                return;
+            }
+
             if (iItem < 7)
             {
-                var index = int.Parse(szBack);
+                int index = int.Parse(szBack);
                 if (menu.PostSelectAction != PostSelectAction.Nothing)
+                {
                     ClosePlayerMenu(iSlot);
+                }
+
                 menu.MenuOptions[index].OnSelect(player, menu.MenuOptions[index]);
 
 
@@ -383,11 +440,14 @@ internal static class MenusMm
                 {
                     case PostSelectAction.Close:
                         ClosePlayerMenu(iSlot);
-                        Control.CloseMenu(Utilities.GetPlayerFromSlot(iSlot));
+                        Control.CloseMenu(player);
                         break;
                     case PostSelectAction.Reset:
                         if (menu.ResetAction != null && !Control.HasOpenedMenu(player))
-                            Server.NextFrameAsync(() => menu.ResetAction(player));
+                        {
+                            Server.NextFrame(() => menu.ResetAction(player));
+                        }
+
                         break;
                 }
             }
@@ -395,14 +455,14 @@ internal static class MenusMm
             {
                 menu.BackAction(player);
             }
-        };
+        }
 
         AddCallbackInfo(slot, callback);
         SetCallback(_callbacksInfos.Last().Func);
         DisplayPlayerMenu(slot);
     }
 
-    internal struct CallbackInfo
+    internal readonly struct CallbackInfo
     {
         private readonly int _slot;
         public readonly MmMenuCallbackFunc Func;

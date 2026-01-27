@@ -1,7 +1,8 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
+using MenuManager;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
 public class MenuInstance(
     string title,
@@ -25,7 +26,7 @@ public class MenuInstance(
     public ChatMenuOption AddMenuOption(string display, Action<CCSPlayerController, ChatMenuOption> onSelect,
         bool disabled = false)
     {
-        var option = new ChatMenuOption(display, disabled, onSelect);
+        ChatMenuOption option = new(display, disabled, onSelect);
         MenuOptions.Add(option);
         return option;
     }
@@ -35,10 +36,14 @@ public class MenuInstance(
         IMenu? menu = null;
 
         if (_forcetype == MenuType.Default)
+        {
             _forcetype = Misc.GetCurrentPlayerMenu(player);
+        }
 
         if (_forcetype == MenuType.MetamodMenu && !MenusMm.Hooked())
+        {
             _forcetype = MenuType.ButtonMenu;
+        }
 
         menu = _forcetype switch
         {
@@ -51,14 +56,26 @@ public class MenuInstance(
             _ => menu
         };
 
-        if (menu == null) return;
+        if (menu == null)
+        {
+            return;
+        }
+
         menu.ExitButton = ExitButton;
         menu.PostSelectAction = PostSelectAction;
 
         if (BackAction != null)
-            menu.AddMenuOption(
+        {
+            _ = menu.AddMenuOption(
                 Control.GetPlugin()?.Localizer["menumanager.back"] ?? throw new InvalidOperationException(),
-                (p, _) => OnBackAction(p));
+                (p, _) =>
+                {
+                    if (p != null)
+                    {
+                        OnBackAction(p);
+                    }
+                });
+        }
 
         if (_forcetype == MenuType.ButtonMenu)
         {
@@ -67,14 +84,18 @@ public class MenuInstance(
         }
         else
         {
-            var flag = _forcetype == MenuType.CenterMenu;
+            bool flag = _forcetype == MenuType.CenterMenu;
             menu.Title = Misc.ColorText(menu.Title, flag);
-            foreach (var t in MenuOptions)
+            foreach (ChatMenuOption t in MenuOptions)
+            {
                 t.Text = Misc.ColorText(t.Text, flag);
+            }
         }
 
-        foreach (var option in MenuOptions)
-            menu.AddMenuOption(option.Text, option.OnSelect, option.Disabled);
+        foreach (ChatMenuOption option in MenuOptions)
+        {
+            _ = menu.AddMenuOption(option.Text, option.OnSelect, option.Disabled);
+        }
 
         if (Control.GetPlugin()!.Config.UseMetamodMenu &&
             ((Control.GetPlugin()!.Config.UseMetamodMenuReplace && _forcetype == MenuType.ButtonMenu) ||
@@ -91,15 +112,20 @@ public class MenuInstance(
 
     public void OpenToAll()
     {
-        foreach (var player in Misc.GetValidPlayers())
+        foreach (CCSPlayerController player in Misc.GetValidPlayers())
+        {
             Open(player);
+        }
     }
 
     private void OnBackAction(CCSPlayerController player)
     {
-        var configSoundBack = Control.GetPlugin()?.Config.SoundBack;
+        string? configSoundBack = Control.GetPlugin()?.Config.SoundBack;
         if (configSoundBack != null)
+        {
             Control.PlaySound(player, configSoundBack);
+        }
+
         BackAction?.Invoke(player);
     }
 

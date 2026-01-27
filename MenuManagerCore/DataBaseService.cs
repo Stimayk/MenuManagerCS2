@@ -1,11 +1,12 @@
-using System.Collections.Concurrent;
-using System.Data;
 using Dapper;
+using MenuManager;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using System.Collections.Concurrent;
+using System.Data;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
 public class DataBaseService
 {
@@ -16,7 +17,7 @@ public class DataBaseService
 
     public DataBaseService(PluginConfig config, string modulePath)
     {
-        var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         _logger = loggerFactory.CreateLogger<DataBaseService>();
         _config = config;
 
@@ -26,7 +27,8 @@ public class DataBaseService
             string.IsNullOrWhiteSpace(_config.DatabaseName))
         {
             _useSqlite = true;
-            var sqliteDbFile = Path.Combine(modulePath, "menumanager.db");
+            SQLitePCL.Batteries.Init();
+            string sqliteDbFile = Path.Combine(modulePath, "menumanager.db");
             _connectionString = $"Data Source={sqliteDbFile}";
             _logger.LogWarning("MySQL configuration missing. Using SQLite database at: {Path}", sqliteDbFile);
         }
@@ -39,7 +41,7 @@ public class DataBaseService
 
     private string BuildMySqlConnectionString()
     {
-        var builder = new MySqlConnectionStringBuilder
+        MySqlConnectionStringBuilder builder = new()
         {
             Server = _config.DatabaseHost,
             Port = (uint)_config.DatabasePort,
@@ -56,14 +58,11 @@ public class DataBaseService
     {
         try
         {
-            IDbConnection connection;
-            if (_useSqlite)
-                connection = new SqliteConnection(_connectionString);
-            else
-                connection = new MySqlConnection(_connectionString);
-
+            IDbConnection connection = _useSqlite ? new SqliteConnection(_connectionString) : new MySqlConnection(_connectionString);
             if (connection.State != ConnectionState.Open)
+            {
                 connection.Open();
+            }
 
             return Task.FromResult(connection);
         }
@@ -78,7 +77,7 @@ public class DataBaseService
     {
         try
         {
-            using var connection = await GetOpenConnectionAsync();
+            using IDbConnection connection = await GetOpenConnectionAsync();
 
             if (_useSqlite)
             {
@@ -91,12 +90,12 @@ public class DataBaseService
                                                     volume REAL NULL DEFAULT NULL
                                                 );
                                                 """;
-                await connection.ExecuteAsync(createTableQuery);
+                _ = await connection.ExecuteAsync(createTableQuery);
                 _logger.LogInformation("SQLite Database checked/created successfully.");
             }
             else
             {
-                var tableExists = await connection.QueryFirstOrDefaultAsync<string>(
+                bool tableExists = await connection.QueryFirstOrDefaultAsync<string>(
                     "SHOW TABLES LIKE 'player_menus';") != null;
 
                 if (!tableExists)
@@ -111,7 +110,7 @@ public class DataBaseService
                                                     );
                                                     """;
 
-                    await connection.ExecuteAsync(createTableQuery);
+                    _ = await connection.ExecuteAsync(createTableQuery);
                     _logger.LogInformation("Table 'player_menus' created successfully (MySQL).");
                 }
             }
@@ -124,17 +123,17 @@ public class DataBaseService
 
     public async Task<ConcurrentDictionary<ulong, PlayerSettings>> LoadAllMenuSettings()
     {
-        var result = new ConcurrentDictionary<ulong, PlayerSettings>();
+        ConcurrentDictionary<ulong, PlayerSettings> result = new();
         try
         {
-            using var connection = await GetOpenConnectionAsync();
+            using IDbConnection connection = await GetOpenConnectionAsync();
 
-            var rows = await connection.QueryAsync("SELECT * FROM player_menus");
+            IEnumerable<dynamic> rows = await connection.QueryAsync("SELECT * FROM player_menus");
 
-            foreach (var row in rows)
+            foreach (dynamic row in rows)
             {
-                var steamId = Convert.ToUInt64(row.steamid);
-                var settings = new PlayerSettings();
+                dynamic steamId = Convert.ToUInt64(row.steamid);
+                PlayerSettings settings = new();
 
                 string typeStr = row.menu_type.ToString();
                 settings.MenuType = Enum.TryParse(typeStr, true, out MenuType parsedType)
@@ -142,13 +141,19 @@ public class DataBaseService
                     : MenuType.Default;
 
                 if (row.pagination != null)
+                {
                     settings.UsePagination = Convert.ToInt32(row.pagination) == 1;
+                }
 
                 if (row.sounds_enabled != null)
+                {
                     settings.SoundsEnabled = Convert.ToInt32(row.sounds_enabled) == 1;
+                }
 
                 if (row.volume != null)
+                {
                     settings.Volume = Convert.ToSingle(row.volume);
+                }
 
                 result.TryAdd(steamId, settings);
             }
@@ -168,9 +173,9 @@ public class DataBaseService
     {
         try
         {
-            using var connection = await GetOpenConnectionAsync();
+            using IDbConnection connection = await GetOpenConnectionAsync();
 
-            var query = _useSqlite
+            string query = _useSqlite
                 ? """
                   INSERT OR REPLACE INTO player_menus (steamid, menu_type, pagination, sounds_enabled, volume) 
                   VALUES (@SteamId, @MenuType, @Pagination, @SoundsEnabled, @Volume);
@@ -185,7 +190,7 @@ public class DataBaseService
                      `volume` = @Volume;
                   """;
 
-            await connection.ExecuteAsync(query, new
+            _ = await connection.ExecuteAsync(query, new
             {
                 SteamId = steamId,
                 MenuType = settings.MenuType.ToString(),

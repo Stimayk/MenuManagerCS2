@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/MenuManagerApi.csproj": {}
+    "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\MenuManagerApi.csproj": {}
   },
   "projects": {
-    "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/MenuManagerApi.csproj": {
+    "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\MenuManagerApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/MenuManagerApi.csproj",
+        "projectUniqueName": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\MenuManagerApi.csproj",
         "projectName": "MenuManagerApi",
-        "projectPath": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/MenuManagerApi.csproj",
-        "packagesPath": "/home/stimayk/.nuget/packages/",
-        "outputPath": "/home/stimayk/Документы/GitHub/MenuManagerCS2/MenuManagerApi/obj/",
+        "projectPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\MenuManagerApi.csproj",
+        "packagesPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\Documents\\GitHub\\MenuManagerCS2\\MenuManagerApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/stimayk/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Stimayk.DESKTOP-1HFB3FI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +40,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -60,18 +62,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,6 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 
-namespace MenuManager;
+namespace MenuManagerCore;
 
 public class ButtonsConfig
 {
