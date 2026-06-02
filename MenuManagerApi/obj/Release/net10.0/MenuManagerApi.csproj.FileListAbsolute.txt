@@ -1,0 +1,13 @@
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\bin\Release\net10.0\MenuManagerApi.deps.json
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\bin\Release\net10.0\MenuManagerApi.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\bin\Release\net10.0\MenuManagerApi.pdb
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.csproj.AssemblyReference.cache
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.AssemblyInfoInputs.cache
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.AssemblyInfo.cs
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.csproj.CoreCompileInputs.cache
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.sourcelink.json
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\refint\MenuManagerApi.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\MenuManagerApi.pdb
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerApi\obj\Release\net10.0\ref\MenuManagerApi.dll

@@ -1,0 +1,16 @@
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\bin\Release\net10.0\MenuManagerTest.deps.json
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\bin\Release\net10.0\MenuManagerTest.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\bin\Release\net10.0\MenuManagerTest.pdb
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\bin\Release\net10.0\MenuManagerApi.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\bin\Release\net10.0\MenuManagerApi.pdb
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.csproj.AssemblyReference.cache
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.AssemblyInfoInputs.cache
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.AssemblyInfo.cs
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.csproj.CoreCompileInputs.cache
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.sourcelink.json
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuMana.AA84D73C.Up2Date
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\refint\MenuManagerTest.dll
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\MenuManagerTest.pdb
+C:\Users\Stimayk\Documents\GitHub\MenuManagerCS2\MenuManagerTest\obj\Release\net10.0\ref\MenuManagerTest.dll

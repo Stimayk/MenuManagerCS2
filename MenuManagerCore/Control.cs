@@ -69,14 +69,7 @@ internal static class Control
     {
         if (_hPlugin is { Config.MenuFlashFix: true })
         {
-            if (_hPlugin.GameRules == null)
-            {
-                _hPlugin.InitializeGameRules();
-            }
-            else
-            {
-                _hPlugin.GameRules.GameRestart = _hPlugin.GameRules.RestartRoundTime < Server.CurrentTime;
-            }
+            _hPlugin.UpdateGameRulesRestartState();
         }
 
         if (Menus.Count <= 0)

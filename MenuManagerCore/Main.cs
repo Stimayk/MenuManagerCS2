@@ -48,9 +48,9 @@ public class MenuManagerCore : BasePlugin, IPluginConfig<PluginConfig>
     private readonly PluginCapability<IMenuApi?> _pluginCapability = new("menu:nfcore");
 
     private CMenuApi? _api;
-    public CCSGameRules? GameRules;
+    private CCSGameRulesProxy? _gameRulesProxy;
     public override string ModuleName => "[FORK] MenuManager";
-    public override string ModuleVersion => "v1.1.1";
+    public override string ModuleVersion => "v1.1.2";
     public override string ModuleAuthor => "E!N (base by Nick Fox)";
     public override string ModuleDescription => "";
     public required PluginConfig Config { get; set; }
@@ -107,17 +107,46 @@ public class MenuManagerCore : BasePlugin, IPluginConfig<PluginConfig>
     {
         if (Config.MenuFlashFix)
         {
-            GameRules = null;
+            _gameRulesProxy = null;
         }
 
         MenusMm.Init();
     }
 
-    public void InitializeGameRules()
+    private CCSGameRulesProxy? GetGameRulesProxy()
     {
-        CCSGameRulesProxy? gameRulesProxy =
-            Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").FirstOrDefault();
-        GameRules = gameRulesProxy?.GameRules;
+        if (_gameRulesProxy == null || !_gameRulesProxy.IsValid)
+        {
+            _gameRulesProxy =
+                Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").FirstOrDefault();
+        }
+
+        return _gameRulesProxy;
+    }
+
+    public void UpdateGameRulesRestartState()
+    {
+        CCSGameRulesProxy? proxy = GetGameRulesProxy();
+
+        if (proxy == null || !proxy.IsValid || proxy.GameRules == null)
+        {
+            return;
+        }
+
+        CCSGameRules gameRules = proxy.GameRules;
+
+        if (gameRules.WarmupPeriod)
+        {
+            return;
+        }
+
+        bool expectedState = gameRules.RestartRoundTime < Server.CurrentTime;
+
+        if (gameRules.GameRestart != expectedState)
+        {
+            gameRules.GameRestart = expectedState;
+            Utilities.SetStateChanged(proxy, "CCSGameRulesProxy", "m_pGameRules");
+        }
     }
 
     public override void Unload(bool hotReload)
