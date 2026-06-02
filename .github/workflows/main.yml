@@ -54,11 +54,7 @@ jobs:
             cp -R "$GITHUB_WORKSPACE/MenuManagerCore/lang" "$package_dir/plugins/MenuManagerCore/lang"
           fi
 
-          dotnet_version="$(dotnet --version)"
-          mkdir -p "$package_dir/dotnet/shared/Microsoft.NETCore.App/$dotnet_version"
-          cp "$core_output/libe_sqlite3.so" "$package_dir/dotnet/shared/Microsoft.NETCore.App/$dotnet_version/libe_sqlite3.so"
-
-          (cd "$package_dir" && zip -r "$artifacts_dir/MenuManagerCore.zip" plugins dotnet)
+          (cd "$package_dir" && zip -r "$artifacts_dir/MenuManagerCore.zip" plugins)
 
           if [ -f "$GITHUB_WORKSPACE/menu_buttons.zip" ]; then
             cp "$GITHUB_WORKSPACE/menu_buttons.zip" "$artifacts_dir/menu_buttons.zip"
