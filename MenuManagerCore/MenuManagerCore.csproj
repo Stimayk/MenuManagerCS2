@@ -22,7 +22,7 @@
 
     <Target Name="CopyLinuxSqliteNativeLibrary" AfterTargets="Build">
         <ItemGroup>
-            <LinuxSqliteNativeLibrary Include="$(OutDir)runtimes\linux-x64\native\libe_sqlite3.so"/>
+            <LinuxSqliteNativeLibrary Include="$(OutDir)runtimes/linux-x64/native/libe_sqlite3.so"/>
         </ItemGroup>
         <Copy SourceFiles="@(LinuxSqliteNativeLibrary)"
               DestinationFiles="$(OutDir)libe_sqlite3.so"

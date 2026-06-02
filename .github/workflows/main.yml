@@ -1,0 +1,88 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore MenuManager.sln
+
+      - name: Build
+        run: dotnet build MenuManager.sln --configuration Release --no-restore
+
+      - name: Prepare release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          artifacts_dir="$GITHUB_WORKSPACE/artifacts"
+          package_dir="$GITHUB_WORKSPACE/package"
+          mkdir -p "$artifacts_dir" "$package_dir"
+
+          api_output="$GITHUB_WORKSPACE/MenuManagerApi/bin/Release/net10.0"
+          core_output="$GITHUB_WORKSPACE/MenuManagerCore/bin/Release/net10.0"
+
+          mkdir -p "$package_dir/MenuManagerApi"
+          cp "$api_output"/MenuManagerApi.* "$package_dir/MenuManagerApi/"
+          (cd "$package_dir" && zip -r "$artifacts_dir/MenuManagerApi.zip" MenuManagerApi)
+
+          mkdir -p "$package_dir/plugins/MenuManagerCore"
+          find "$core_output" -maxdepth 1 -type f \
+            \( -name '*.dll' -o -name '*.deps.json' -o -name '*.pdb' -o -name 'libe_sqlite3.so' \) \
+            -exec cp {} "$package_dir/plugins/MenuManagerCore/" \;
+
+          if [ -d "$GITHUB_WORKSPACE/MenuManagerCore/lang" ]; then
+            cp -R "$GITHUB_WORKSPACE/MenuManagerCore/lang" "$package_dir/plugins/MenuManagerCore/lang"
+          fi
+
+          dotnet_version="$(dotnet --version)"
+          mkdir -p "$package_dir/dotnet/shared/Microsoft.NETCore.App/$dotnet_version"
+          cp "$core_output/libe_sqlite3.so" "$package_dir/dotnet/shared/Microsoft.NETCore.App/$dotnet_version/libe_sqlite3.so"
+
+          (cd "$package_dir" && zip -r "$artifacts_dir/MenuManagerCore.zip" plugins dotnet)
+
+          if [ -f "$GITHUB_WORKSPACE/menu_buttons.zip" ]; then
+            cp "$GITHUB_WORKSPACE/menu_buttons.zip" "$artifacts_dir/menu_buttons.zip"
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MenuManagerCS2
+          path: artifacts/*.zip
+          if-no-files-found: error
+
+      - name: Create GitHub release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          module_version="$(grep -Po 'ModuleVersion\s*=>\s*"\K[^"]+' MenuManagerCore/Main.cs)"
+          tag="${module_version}-build.${GITHUB_RUN_NUMBER}"
+
+          gh release create "$tag" artifacts/*.zip \
+            --target "$GITHUB_SHA" \
+            --title "$tag" \
+            --notes "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/commits/${tag}"
