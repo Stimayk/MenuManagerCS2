@@ -16,7 +16,7 @@ internal static class Misc
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
             if (player is
-                { IsValid: true, IsBot: false, IsHLTV: false, Connected: PlayerConnectedState.PlayerConnected })
+                { IsValid: true, IsBot: false, IsHLTV: false, Connected: PlayerConnectedState.Connected })
             {
                 players.Add(player);
             }
@@ -198,7 +198,7 @@ internal static class Misc
     public static bool IsValidPlayer(CCSPlayerController player)
     {
         return player is
-        { IsValid: true, Connected: PlayerConnectedState.PlayerConnected, IsBot: false };
+        { IsValid: true, Connected: PlayerConnectedState.Connected, IsBot: false };
     }
 
     internal static string ColorText(string text, bool needColors = true)

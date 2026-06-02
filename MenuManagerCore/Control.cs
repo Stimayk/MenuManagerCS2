@@ -36,7 +36,7 @@ internal static class Control
         foreach (CCSPlayerController? player in players.OfType<CCSPlayerController?>().Where(player =>
                      player is
                      {
-                         IsValid: true, IsBot: false, IsHLTV: false, Connected: PlayerConnectedState.PlayerConnected
+                         IsValid: true, IsBot: false, IsHLTV: false, Connected: PlayerConnectedState.Connected
                      }))
         {
             if (player != null)

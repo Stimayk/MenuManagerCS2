@@ -5,20 +5,20 @@ namespace MenuManager;
 
 public interface IMenuApi
 {
-    public IMenu GetMenu(string title, Action<CCSPlayerController> backAction = null,
-        Action<CCSPlayerController> resetAction = null);
+    public IMenu GetMenu(string title, Action<CCSPlayerController>? backAction = null,
+        Action<CCSPlayerController>? resetAction = null);
 
     // Deprecated, only for backward compatibility
     [Obsolete("Method used only for backward compatibility, not for develope.", true)]
-    public IMenu NewMenu(string title, Action<CCSPlayerController> backAction = null);
+    public IMenu NewMenu(string title, Action<CCSPlayerController>? backAction = null);
     //
 
-    public IMenu GetMenuForcetype(string title, MenuType type, Action<CCSPlayerController> backAction = null,
-        Action<CCSPlayerController> resetAction = null);
+    public IMenu GetMenuForcetype(string title, MenuType type, Action<CCSPlayerController>? backAction = null,
+        Action<CCSPlayerController>? resetAction = null);
 
     // Deprecated, only for backward compatibility
     [Obsolete("Method used only for backward compatibility, not for develope.", true)]
-    public IMenu NewMenuForcetype(string title, MenuType type, Action<CCSPlayerController> backAction = null);
+    public IMenu NewMenuForcetype(string title, MenuType type, Action<CCSPlayerController>? backAction = null);
     // 
 
     public void CloseMenu(CCSPlayerController player);
