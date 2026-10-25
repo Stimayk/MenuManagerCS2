@@ -1,4 +1,4 @@
-# [FORK] MenuManagerCS2
+# [FORK] MenuManagerCS2 (It seems to be broken; [it’s better to use](https://github.com/RRimmer/PanoramaMenuManagerCS2))
 
 [MenuManager main repository](https://github.com/NickFox007/MenuManagerCS2)
 
