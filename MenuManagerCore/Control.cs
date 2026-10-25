@@ -142,20 +142,22 @@ internal static class Control
                     menu.Menu.BackAction?.Invoke(player);
                 }
 
-                if (_hPlugin != null && (buttons.HasFlag(_hPlugin.Config.ButtonsConfig.ExitButton) || menu.Closed()))
+            if (_hPlugin != null && (buttons.HasFlag(_hPlugin.Config.ButtonsConfig.ExitButton) || menu.Closed()))
                 {
-                    menu.Close(true);
-                    if (_hPlugin.Config.StopingUser && player.PawnIsAlive && player.Pawn.Value != null &&
-                        player.Pawn.Value.MoveType == MoveType_t.MOVETYPE_NONE)
-                    {
-                        player.Pawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
-                        Schema.SetSchemaValue(player.Pawn.Value.Handle, "CBaseEntity", "m_nActualMoveType", 2);
-                        Utilities.SetStateChanged(player.Pawn.Value, "CBaseEntity", "m_MoveType");
-                    }
+                menu.Close(true);
 
-                    Menus.RemoveAt(i);
-                    i--;
-                    continue;
+            if (_hPlugin.Config.StopingUser &&
+                player.PawnIsAlive &&
+                player.Pawn.Value != null &&
+                player.Pawn.Value.MoveType == MoveType_t.MOVETYPE_NONE)
+                {
+                   player.Pawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+                   Schema.SetSchemaValue(player.Pawn.Value.Handle, "CBaseEntity", "m_nActualMoveType", 2);
+                   Utilities.SetStateChanged(player.Pawn.Value, "CBaseEntity", "m_MoveType");
+                }
+
+                Menus.Remove(menu);
+                continue;
                 }
             }
 
